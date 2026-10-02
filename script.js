@@ -31,23 +31,41 @@ window.onload = () => {
     }
 };
 
+// TAB SWITCHING (LOGIN <-> REGISTER)
 function switchTab(tab) {
-    document.getElementById("btn-tab-login").classList.toggle("active", tab === 'login');
-    document.getElementById("btn-tab-register").classList.toggle("active", tab === 'register');
-    document.getElementById("btn-tab-admin").classList.toggle("active", tab === 'admin');
-    
-    document.getElementById("form-login").classList.toggle("hidden", tab !== 'login');
-    document.getElementById("form-register").classList.toggle("hidden", tab !== 'register');
-    document.getElementById("form-admin").classList.toggle("hidden", tab !== 'admin');
+    const loginForm = document.getElementById("form-login");
+    const regForm = document.getElementById("form-register");
+    const adminForm = document.getElementById("form-admin");
+    const btnLogin = document.getElementById("btn-tab-login");
+    const btnReg = document.getElementById("btn-tab-register");
+
+    if (adminForm) adminForm.classList.add("hidden");
+
+    if (tab === 'login') {
+        if (loginForm) loginForm.classList.remove("hidden");
+        if (regForm) regForm.classList.add("hidden");
+        if (btnLogin) btnLogin.classList.add("active");
+        if (btnReg) btnReg.classList.remove("active");
+    } else if (tab === 'register') {
+        if (regForm) regForm.classList.remove("hidden");
+        if (loginForm) loginForm.classList.add("hidden");
+        if (btnReg) btnReg.classList.add("active");
+        if (btnLogin) btnLogin.classList.remove("active");
+    }
 }
 
-// REGISTER PLAYER BARU (TANPA NISN)
+// REGISTER PLAYER BARU
 function handleRegister(e) {
     e.preventDefault();
-    const username = document.getElementById("reg-username").value.trim();
     const fullname = document.getElementById("reg-fullname").value.trim();
     const userClass = document.getElementById("reg-class").value;
+    const username = document.getElementById("reg-username").value.trim();
     const password = document.getElementById("reg-password").value;
+
+    if (!userClass) {
+        alert("Silakan pilih kelas terlebih dahulu!");
+        return;
+    }
 
     const allUsers = getAllUsers();
     if (allUsers.some(u => u.username === username)) {
@@ -67,6 +85,8 @@ function handleRegister(e) {
 
     saveUserToStorage(user);
     currentUser = user;
+    currentLevel = 1;
+    score = 0;
     localStorage.setItem("rpg_smk_user", JSON.stringify(user));
     
     // Kirim data registrasi awal ke Google Sheets
@@ -107,6 +127,20 @@ function handleAdminLogin(e) {
     }
 }
 
+// SHORTCUT UNTUK MEMBUKA FORM ADMIN RAHASIA (CTRL + SHIFT + A)
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        const loginForm = document.getElementById("form-login");
+        const regForm = document.getElementById("form-register");
+        const adminForm = document.getElementById("form-admin");
+        
+        if (loginForm) loginForm.classList.add("hidden");
+        if (regForm) regForm.classList.add("hidden");
+        if (adminForm) adminForm.classList.remove("hidden");
+        alert("Mode Login Superadmin Terbuka!");
+    }
+});
+
 function handleLogout() {
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
     localStorage.removeItem("rpg_smk_user");
@@ -144,7 +178,7 @@ function showAdminDashboard() {
             <td>${p.class}</td>
             <td>${p.username}</td>
             <td>Level ${p.level || 1}</td>
-            <td><strong style="color: #00fff5">${p.score || 0}</strong></td>
+            <td><strong style="color: #38bdf8">${p.score || 0}</strong></td>
         </tr>`;
         tbody.innerHTML += row;
     });
@@ -154,10 +188,12 @@ function updateHUD() {
     document.getElementById("hud-level").innerText = `Level ${currentLevel}`;
     document.getElementById("hud-score").innerText = `Skor: ${score}`;
     
-    currentUser.level = currentLevel;
-    currentUser.score = score;
-    saveUserToStorage(currentUser);
-    localStorage.setItem("rpg_smk_user", JSON.stringify(currentUser));
+    if (currentUser) {
+        currentUser.level = currentLevel;
+        currentUser.score = score;
+        saveUserToStorage(currentUser);
+        localStorage.setItem("rpg_smk_user", JSON.stringify(currentUser));
+    }
 }
 
 function loadQuestion() {
@@ -175,7 +211,9 @@ function loadQuestion() {
 
         const buttons = optContainer.getElementsByClassName("btn-option");
         q.options.forEach((opt, idx) => {
-            buttons[idx].innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+            if (buttons[idx]) {
+                buttons[idx].innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+            }
         });
     } else {
         optContainer.classList.add("hidden");
@@ -225,6 +263,7 @@ function nextLevel() {
 // CANVAS HERO CHIBI 2D
 function initChibiCanvas() {
     const canvas = document.getElementById("gameCanvas");
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
     let frame = 0;
 
@@ -233,7 +272,7 @@ function initChibiCanvas() {
     function render() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Latar Belakang Kartun Imut
+        // Latar Belakang Kartun
         ctx.fillStyle = "#2d4059";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "#ea5455";
@@ -364,7 +403,7 @@ function sendToGoogleSheets(status, essayText) {
     }).catch(err => console.error("Sheet Error:", err));
 }
 
-// SOAL KUIS (LEVEL 1 - 53)
+// GENERATE SOAL KUIS (LEVEL 1 - 53)
 function generateQuestions() {
     let list = [];
 
