@@ -22,46 +22,47 @@
                 <!-- Form Login Siswa -->
                 <form id="form-login" onsubmit="handleLogin(event)">
                     <div class="form-group">
-                        <label>Username</label>
+                        <label for="login-username">Username</label>
                         <input type="text" id="login-username" required placeholder="Masukkan username">
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
+                        <label for="login-password">Password</label>
                         <input type="password" id="login-password" required placeholder="Masukkan password">
                     </div>
                     <button type="submit" class="btn-primary">Masuk Game</button>
                 </form>
 
-                <!-- Form Register Siswa (Tanpa NISN) -->
+                <!-- Form Register Siswa -->
                 <form id="form-register" class="hidden" onsubmit="handleRegister(event)">
                     <div class="form-group">
-                        <label>Nama Lengkap</label>
+                        <label for="reg-fullname">Nama Lengkap</label>
                         <input type="text" id="reg-fullname" required placeholder="Contoh: Ahmad Rizki">
                     </div>
                     <div class="form-group">
-                        <label>Kelas</label>
+                        <label for="reg-class">Kelas</label>
                         <select id="reg-class" required>
+                            <option value="" disabled selected>-- Pilih Kelas --</option>
                             <option value="X RPL">X RPL</option>
                             <option value="XI RPL">XI RPL</option>
                             <option value="XII RPL">XII RPL</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Username</label>
+                        <label for="reg-username">Username</label>
                         <input type="text" id="reg-username" required placeholder="Username baru">
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
+                        <label for="reg-password">Password</label>
                         <input type="password" id="reg-password" required placeholder="Password">
                     </div>
                     <button type="submit" class="btn-primary">Daftar & Login Otomatis</button>
                 </form>
 
-                <!-- Form Login Superadmin -->
+                <!-- Form Login Superadmin (Sembunyi dari menu utama, dapat diakses via JavaScript / Kombinasi Khusus) -->
                 <form id="form-admin" class="hidden" onsubmit="handleAdminLogin(event)">
                     <div class="form-group">
-                        <label>Password Superadmin</label>
-                        <input type="password" id="admin-password" required placeholder="Default: admin123">
+                        <label for="admin-password">Password Superadmin</label>
+                        <input type="password" id="admin-password" required placeholder="Masukkan password admin">
                     </div>
                     <button type="submit" class="btn-primary">Masuk Dashboard Admin</button>
                 </form>
