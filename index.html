@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG SMK PINTAR - SMK 17 Muncar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- SCREEN AUTHENTICATION -->
+        <div id="auth-screen" class="screen">
+            <div class="card">
+                <h1>RPG SMK PINTAR</h1>
+                <h2>SMK 17 MUNCAR</h2>
+                
+                <div class="tab-buttons">
+                    <button id="btn-tab-login" class="active" onclick="switchTab('login')">Login Siswa</button>
+                    <button id="btn-tab-register" onclick="switchTab('register')">Daftar Baru</button>
+                    <button id="btn-tab-admin" onclick="switchTab('admin')">Superadmin</button>
+                </div>
+
+                <!-- Form Login Siswa -->
+                <form id="form-login" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="login-username" required placeholder="Masukkan username">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-password" required placeholder="Masukkan password">
+                    </div>
+                    <button type="submit" class="btn-primary">Masuk Game</button>
+                </form>
+
+                <!-- Form Register Siswa (Tanpa NISN) -->
+                <form id="form-register" class="hidden" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="reg-fullname" required placeholder="Contoh: Ahmad Rizki">
+                    </div>
+                    <div class="form-group">
+                        <label>Kelas</label>
+                        <select id="reg-class" required>
+                            <option value="X RPL">X RPL</option>
+                            <option value="XI RPL">XI RPL</option>
+                            <option value="XII RPL">XII RPL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="reg-username" required placeholder="Username baru">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="reg-password" required placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn-primary">Daftar & Login Otomatis</button>
+                </form>
+
+                <!-- Form Login Superadmin -->
+                <form id="form-admin" class="hidden" onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label>Password Superadmin</label>
+                        <input type="password" id="admin-password" required placeholder="Default: admin123">
+                    </div>
+                    <button type="submit" class="btn-primary">Masuk Dashboard Admin</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SCREEN SUPERADMIN DASHBOARD -->
+        <div id="admin-screen" class="screen hidden">
+            <div class="card-admin">
+                <div class="admin-header">
+                    <h2>Panel Superadmin - Leaderboard Player</h2>
+                    <button onclick="handleLogout()" class="btn-danger">Keluar Admin</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Peringkat</th>
+                                <th>Nama Lengkap</th>
+                                <th>Kelas</th>
+                                <th>Username</th>
+                                <th>Level</th>
+                                <th>Skor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                            <!-- Data dimuat dinamis -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN MAIN GAME -->
+        <div id="game-screen" class="screen hidden">
+            <div id="hud">
+                <div class="user-info">
+                    <span id="hud-name">Siswa</span> | 
+                    <span id="hud-class">X RPL</span> | 
+                    <strong id="hud-level">Level 1</strong>
+                </div>
+                <div class="hud-actions">
+                    <span id="hud-score">Skor: 0</span>
+                    <button onclick="handleLogout()" class="btn-danger">Logout</button>
+                </div>
+            </div>
+
+            <!-- CANVAS KARAKTER CHIBI 2D -->
+            <div id="canvas-container">
+                <canvas id="gameCanvas" width="800" height="380"></canvas>
+            </div>
+
+            <!-- PANEL SOAL KUIS -->
+            <div id="quiz-panel" class="card-quiz">
+                <div id="quiz-header">
+                    <span id="quiz-category">Kategori: RPL</span>
+                    <span id="quiz-level-title">Misi Level 1</span>
+                </div>
+                
+                <p id="quiz-question">Pertanyaan kuis akan muncul di sini...</p>
+
+                <!-- Pilihan Ganda (Level 1 - 50) -->
+                <div id="options-container" class="options-grid">
+                    <button class="btn-option" onclick="submitAnswer(0)"></button>
+                    <button class="btn-option" onclick="submitAnswer(1)"></button>
+                    <button class="btn-option" onclick="submitAnswer(2)"></button>
+                    <button class="btn-option" onclick="submitAnswer(3)"></button>
+                </div>
+
+                <!-- Input Esai Refleksi (Level 51 - 53) -->
+                <div id="essay-container" class="hidden">
+                    <textarea id="essay-input" rows="4" placeholder="Tuliskan jawaban refleksi Anda secara jujur bagi SMK 17 Muncar..."></textarea>
+                    <button onclick="submitEssay()" class="btn-primary">Kirim Jawaban Refleksi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
