@@ -1,3 +1,4 @@
+/* --- RESET & BASIC STYLES --- */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,212 +7,166 @@
 }
 
 body {
-    background: linear-gradient(135deg, #1d2671, #c33764);
-    color: #fff;
+    background-color: #121826;
+    color: #f3f4f6;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
 #app {
     width: 100%;
-    max-width: 850px;
-    padding: 10px;
-}
-
-.screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-width: 900px;
+    padding: 20px;
 }
 
 .hidden {
     display: none !important;
 }
 
-.card {
-    background: rgba(22, 33, 62, 0.95);
-    border: 3px solid #ff416c;
-    border-radius: 16px;
+/* --- CARDS & SCREENS --- */
+.card, .card-admin, .card-quiz {
+    background: #1e293b;
+    border-radius: 12px;
     padding: 24px;
-    width: 100%;
-    max-width: 440px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 1px solid #334155;
 }
 
 .card h1 {
-    color: #ff416c;
-    font-size: 26px;
+    color: #38bdf8;
+    text-align: center;
+    font-size: 1.8rem;
 }
 
 .card h2 {
-    color: #00fff5;
-    font-size: 14px;
+    color: #94a3b8;
+    text-align: center;
+    font-size: 1rem;
     margin-bottom: 20px;
 }
 
+/* --- TABS & FORMS --- */
 .tab-buttons {
     display: flex;
-    gap: 6px;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
 .tab-buttons button {
     flex: 1;
-    padding: 8px 4px;
-    background: #0f3460;
+    padding: 10px;
+    background: #334155;
     border: none;
-    color: white;
-    font-size: 12px;
-    border-radius: 8px;
+    color: #94a3b8;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: bold;
     transition: 0.3s;
 }
 
 .tab-buttons button.active {
-    background: #ff416c;
-    font-weight: bold;
+    background: #2563eb;
+    color: #ffffff;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .form-group label {
-    font-size: 12px;
-    margin-bottom: 4px;
-    color: #ffde7d;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: #cbd5e1;
 }
 
 .form-group input, .form-group select, textarea {
-    padding: 10px;
-    background: #0f3460;
-    border: 1px solid #ff416c;
-    color: white;
-    border-radius: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: #fff;
     outline: none;
 }
 
+.form-group input:focus, .form-group select:focus, textarea:focus {
+    border-color: #38bdf8;
+}
+
+/* --- BUTTONS --- */
 .btn-primary {
     width: 100%;
     padding: 12px;
-    background: linear-gradient(90deg, #ff416c, #ff4b2b);
-    border: none;
+    background: #2563eb;
     color: white;
+    border: none;
+    border-radius: 6px;
     font-weight: bold;
-    border-radius: 8px;
     cursor: pointer;
-    margin-top: 10px;
     transition: 0.2s;
 }
 
 .btn-primary:hover {
-    transform: scale(1.02);
+    background: #1d4ed8;
 }
 
 .btn-danger {
-    background: #ff2e63;
-    border: none;
+    background: #dc2626;
     color: white;
-    padding: 6px 12px;
+    border: none;
+    padding: 8px 14px;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: bold;
+    font-size: 0.85rem;
 }
 
-/* SUPERADMIN DASHBOARD */
-.card-admin {
-    background: #16213e;
-    border: 2px solid #ff416c;
-    border-radius: 12px;
-    padding: 20px;
-    width: 100%;
-    max-width: 800px;
+.btn-danger:hover {
+    background: #b91c1c;
 }
 
-.admin-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-}
-
-.table-responsive {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #0f3460;
-    font-size: 14px;
-}
-
-th {
-    background: #0f3460;
-    color: #ffde7d;
-}
-
-/* GAME UI */
+/* --- HUD & GAME --- */
 #hud {
-    width: 100%;
-    background: #16213e;
-    padding: 12px 18px;
-    border-radius: 12px;
-    border: 2px solid #ff416c;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    background: #1e293b;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
 
 #canvas-container {
     width: 100%;
-    border: 3px solid #ffde7d;
-    border-radius: 12px;
+    background: #000;
+    border-radius: 8px;
     overflow: hidden;
-    background: #1a1a2e;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
 }
 
 canvas {
     width: 100%;
+    max-width: 800px;
     height: auto;
-    display: block;
+    background: #0284c7;
 }
 
-.card-quiz {
-    background: #16213e;
-    width: 100%;
-    border-radius: 12px;
-    padding: 18px;
-    margin-top: 10px;
-    border: 2px solid #0f3460;
-}
-
+/* --- QUIZ PANEL --- */
 #quiz-header {
     display: flex;
     justify-content: space-between;
-    color: #00fff5;
-    font-size: 13px;
-    margin-bottom: 8px;
-    font-weight: bold;
+    font-size: 0.85rem;
+    color: #38bdf8;
+    margin-bottom: 10px;
 }
 
 #quiz-question {
-    font-size: 16px;
-    margin-bottom: 16px;
-    min-height: 48px;
-    line-height: 1.4;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
 }
 
 .options-grid {
@@ -222,15 +177,43 @@ canvas {
 
 .btn-option {
     padding: 12px;
-    background: #0f3460;
-    border: 1px solid #00fff5;
+    background: #334155;
     color: white;
-    text-align: left;
-    border-radius: 8px;
+    border: 1px solid #475569;
+    border-radius: 6px;
     cursor: pointer;
+    text-align: left;
     transition: 0.2s;
 }
 
 .btn-option:hover {
-    background: #ff416c;
+    background: #475569;
+}
+
+/* --- TABLE ADMIN --- */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #334155;
+}
+
+th {
+    background: #0f172a;
+    color: #38bdf8;
 }
